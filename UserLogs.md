@@ -2,6 +2,6 @@
 
 ###### Este es un markdown referencial como test para el proyecto
 
-1.  Aleherem (Alejandro R)
+1. Ajrodriguez (Alejandro R)
 
 2. 
