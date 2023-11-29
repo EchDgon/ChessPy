@@ -1,6 +1,6 @@
 import pygame
 import os
-from Piezas import *
+from piezas import *
 
 #Font colors
 dark = (226,135,67)

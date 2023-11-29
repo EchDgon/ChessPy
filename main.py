@@ -1,6 +1,6 @@
 import pygame
 from tablero import *
-from Movements import *
+from movimientos import *
 
 def main():
     pygame.init()
