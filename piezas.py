@@ -1,5 +1,6 @@
 import pygame
 from tablero import *
+import os
 
 SPRITES_DIR = r"Assets"
 ROOK_SPRITE = os.path.join(SPRITES_DIR, 'DarkRook-.png')
