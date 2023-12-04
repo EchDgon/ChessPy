@@ -1,52 +1,63 @@
 import pygame
+import sys
 from tablero import *
-from movimientos import *
+from  movimientos import *
+# Inicializar Pygame
+pygame.init()
 
-def main():
-    pygame.init()
+# Crear la ventana
+ventana = pygame.display.set_mode((width, height))
+pygame.display.set_caption('Movimiento de las Piezas')
 
-    icono = pygame.image.load('Icono.png')
-    pygame.display.set_icon(icono)
+# Bucle principal
+seleccionando = False
+posicion_inicial = None
+posicion_actual = (0,0)
 
-    fuente_titulo = pygame.font.SysFont("bold", 30)
-    pygame.display.set_caption("CHESSPY")
-
-    screen = pygame.display.set_mode(boardSize)
-    game_over = False
-    clock = pygame.time.Clock()
-    font_size = 30
-    seleccion = ['Z', -1]
-    origen = None
-    fuente = pygame.font.SysFont("arial",font_size)
-    start, dimension = ajustarMedidas(font_size)
-    while game_over is False:
-        for evento in pygame.event.get():
-            if evento.type == pygame.QUIT:
-                game_over = True
-        botones = pygame.mouse.get_pressed()
-        if botones[0]:
-            pos = pygame.mouse.get_pos()
-            nueva_seleccion = obtenerPosicion(pos, dimension, start, seleccion)
-            if origen is None:
-                origen = nueva_seleccion
-            else:
-                destino = nueva_seleccion
-                if MoveRook(board, origen, destino):
-                    origen = None 
+while True:
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        elif evento.type == pygame.MOUSEBUTTONDOWN:
+            x, y = evento.pos
+            col_seleccionada = x // box
+            fila_seleccionada = y // box
+            pieza_seleccionada = board[fila_seleccionada][col_seleccionada] 
+            
+            if pieza_seleccionada:
+                seleccionando = True
+                tipo_pieza, imagen_pieza = pieza_seleccionada
+                posicion_inicial = (col_seleccionada, fila_seleccionada)
+        elif evento.type == pygame.MOUSEMOTION:
+            if seleccionando:
+                x, y = evento.pos
+                col_seleccionada = x // box
+                fila_seleccionada = y // box
+                posicion_actual = (col_seleccionada, fila_seleccionada)
+        elif evento.type == pygame.MOUSEBUTTONUP:
+            if seleccionando:
+                seleccionando = False
+                # Realizar el movimiento en el tablero según el tipo de pieza
+                if tipo_pieza == 'rook':
+                    mover_torre(board, posicion_inicial, posicion_actual)
                 else:
-                    origen = None
-        
-        screen.fill(background)
-        dibujarTablero(screen, dimension, start, font_size, fuente, seleccion)
-        if origen is not None:
-            AddChessPiece(screen, 'T', origen, dimension, start)
-        
-        Tittle(screen, fuente_titulo)
-        
-        pygame.display.flip()
-        clock.tick(60)
-    pygame.quit()
+                    print("Tipo de pieza no reconocido")
+                posicion_inicial = None
+                posicion_actual = (0,0)
 
+    # Limpiar la pantalla
+    ventana.fill(white)
 
-if __name__ == "__main__":
-    main()
+    # Dibujar el board
+    ChessBoard(ventana, box)
+
+    # Dibujar un contorno alrededor de la pieza seleccionada
+    if seleccionando:
+        pygame.draw.rect(ventana, (255, 0, 0), (posicion_actual[0] * box, posicion_actual[1] * box, box, box), 3)
+
+    # Actualizar la pantalla
+    pygame.display.flip()
+
+    # Controlar la velocidad de actualización
+    pygame.time.Clock().tick(30)
