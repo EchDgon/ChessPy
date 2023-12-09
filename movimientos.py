@@ -1,6 +1,6 @@
 from tablero import *
 
-def mover_torre(tablero, posicion_inicial, posicion_final):
+def Rook(tablero, posicion_inicial, posicion_final):
     try:
         col_inicial, fila_inicial = posicion_inicial
         col_final, fila_final = posicion_final
@@ -19,7 +19,7 @@ def mover_torre(tablero, posicion_inicial, posicion_final):
                 tablero[fila_final][col_final] = tablero[fila_inicial][col_inicial]
                 tablero[fila_inicial][col_inicial] = None
         else:
-            print("Movimiento no válido para una torre")
+            print("Movimiento no valido para una torre")
     
     except Exception as e:
         print(f"Error en mover_torre: {e}")
