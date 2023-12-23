@@ -7,7 +7,7 @@ pygame.init()
 
 # Crear la ventana
 ventana = pygame.display.set_mode((width, height))
-pygame.display.set_caption('Movimiento de las Piezas')
+pygame.display.set_caption('ChessPY')
 
 # Bucle principal
 seleccionando = False
@@ -39,10 +39,27 @@ while True:
             if seleccionando:
                 seleccionando = False
                 # Realizar el movimiento en el tablero según el tipo de pieza
-                if tipo_pieza == 'rook':
-                    mover_torre(board, posicion_inicial, posicion_actual)
-                else:
-                    print("Tipo de pieza no reconocido")
+                match tipo_pieza:
+                    case 'Rook':
+                        Rook(board, posicion_inicial, posicion_actual)
+                    case 'Knight':
+                        print('Caballero')
+                        #knight()
+                    case 'Bisharp':
+                        print('Alfil')
+                        #Bisharp()
+                    case 'Queen':
+                        print('Reina')
+                        #Queen()
+                    case 'King':
+                        print('King')
+                        #King()
+                    case 'Paw':
+                        print('Peon')
+                        #Paw()
+                    case _:
+                        print('Thats not an Chess Piece my man')   
+
                 posicion_inicial = None
                 posicion_actual = (0,0)
 
