@@ -15,7 +15,6 @@ board = [[None] * 8 for _ in range(8)]
 board[0][0] = ('rook', rook_image)
 board[0][7] = ('rook', rook_image)
 
-
 def ChessBoard(ventana, box):
     for i in range(8):
         for j in range(8):
