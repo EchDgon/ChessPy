@@ -1,13 +1,13 @@
 import pygame
-from piezas import *
+from componentes.piezas import *
 
 white = (255, 255, 255)
-dark = (147, 23, 244)
+trust = (135,135,135)
+dark = (0, 0, 0)
 
-width, height = 600, 600
-box = width // 8
+ancho, alto = 600, 700
 
-ventana = pygame.display.set_mode((width, height))
+ventana = pygame.display.set_mode((ancho, alto))
 
 board = [[None] * 8 for _ in range(8)]
 board[0][0] = ('Rook', dark_rook_image)
@@ -36,8 +36,14 @@ for i in range(8):
 def ChessBoard(ventana, box):
     for i in range(8):
         for j in range(8):
-            jor = white if (i + j) % 2 == 0 else dark
-            pygame.draw.rect(ventana, jor, (j * box, i * box, box, box))
+            color = white if (i + j) % 2 == 0 else trust
+            pygame.draw.rect(ventana, color, (j * box, i * box, box, box))
+            pygame.draw.rect(ventana, dark, (j * box, i * box, box, box), 1 )
             if board[i][j]:
                 imagen_pieza = board[i][j][1]
-                ventana.blit(imagen_pieza, (j * box, i * box))
+
+                ancho_imagen, alto_imagen = imagen_pieza.get_size()
+                x = j * box + (box - ancho_imagen) // 2
+                y = i * box + (box - alto_imagen) // 2
+                ventana.blit(imagen_pieza, (x, y))
+
