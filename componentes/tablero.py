@@ -32,7 +32,6 @@ board[7][3] = ('King', light_king_image)
 for i in range(8):
     board[6][i] = ('Paw', light_paw_image) 
 
-
 def ChessBoard(ventana, box):
     for i in range(8):
         for j in range(8):
