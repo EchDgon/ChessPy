@@ -1,4 +1,4 @@
-from tablero import *
+from componentes.tablero import *
 
 def Rook(tablero, posicion_inicial, posicion_final):
     try:

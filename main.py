@@ -1,12 +1,14 @@
 import pygame
 import sys
-from tablero import *
-from  movimientos import *
+
+import pygame.draw
+from componentes.movimientos import *
+from componentes.superficies import *
+
 # Inicializar Pygame
 pygame.init()
 
 # Crear la ventana
-ventana = pygame.display.set_mode((width, height))
 pygame.display.set_caption('ChessPY')
 
 # Bucle principal
@@ -14,11 +16,19 @@ seleccionando = False
 posicion_inicial = None
 posicion_actual = (0,0)
 
+
 while True:
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+
+        elif evento.type == pygame.VIDEORESIZE:
+            ancho_n, alto_n = evento.size[0], evento.size[1]
+            ventana = pygame.display.set_mode((ancho_n, alto_n), pygame.RESIZABLE)
+            actualizar_dimensiones(ancho_n, alto_n)
+            RecargarVentana()
+                
         elif evento.type == pygame.MOUSEBUTTONDOWN:
             x, y = evento.pos
             col_seleccionada = x // box
@@ -64,14 +74,9 @@ while True:
                 posicion_actual = (0,0)
 
     # Limpiar la pantalla
-    ventana.fill(white)
+    DibujarElementos()
 
-    # Dibujar el board
-    ChessBoard(ventana, box)
-
-    # Dibujar un contorno alrededor de la pieza seleccionada
-    if seleccionando:
-        pygame.draw.rect(ventana, (255, 0, 0), (posicion_actual[0] * box, posicion_actual[1] * box, box, box), 3)
+    RecargarVentana()
 
     # Actualizar la pantalla
     pygame.display.flip()
