@@ -32,6 +32,9 @@ board[7][3] = ('King', light_king_image)
 for i in range(8):
     board[6][i] = ('Paw', light_paw_image) 
 
+
+image = ['menu', icon_menu]
+
 def ChessBoard(ventana, box):
     for i in range(8):
         for j in range(8):
@@ -46,3 +49,9 @@ def ChessBoard(ventana, box):
                 y = i * box + (box - alto_imagen) // 2
                 ventana.blit(imagen_pieza, (x, y))
 
+def Menu(ventana, dimensionX, dimensionY):
+    imagen_menu = image[1]
+    ancho_menu, alto_menu = imagen_menu.get_size()
+    x = (dimensionX - ancho_menu)  // 2
+    y = (dimensionY - alto_menu) // 2
+    ventana.blit(imagen_menu, (x,y))

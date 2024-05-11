@@ -1,7 +1,6 @@
 import pygame
-
-width, height = 600, 600
-box = width // 8
+box = 80
+menu_box = 30
 
 #Dark Chess Pieces
 dark_rook_image = pygame.image.load('Assets/Torre-N.png')
@@ -30,3 +29,7 @@ light_king_image = pygame.image.load('Assets/Rey-B.png')
 light_king_image = pygame.transform.scale(light_king_image, (box, box))
 light_paw_image = pygame.image.load('Assets/Peon-B.png')
 light_paw_image = pygame.transform.scale(light_paw_image, (box, box))
+
+#Menu
+icon_menu = pygame.image.load('assets/menu.png')
+icon_menu = pygame.transform.scale(icon_menu, (menu_box, menu_box))

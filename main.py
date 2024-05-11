@@ -9,6 +9,10 @@ from componentes.superficies import *
 pygame.init()
 
 # Crear la ventana
+icono = pygame.image.load("assets/Torre-N.png")
+pygame.display.set_icon(icono)
+
+
 pygame.display.set_caption('ChessPY')
 
 # Bucle principal
@@ -28,51 +32,8 @@ while True:
             ventana = pygame.display.set_mode((ancho_n, alto_n), pygame.RESIZABLE)
             actualizar_dimensiones(ancho_n, alto_n)
             RecargarVentana()
+
                 
-        elif evento.type == pygame.MOUSEBUTTONDOWN:
-            x, y = evento.pos
-            col_seleccionada = x // box
-            fila_seleccionada = y // box
-            pieza_seleccionada = board[fila_seleccionada][col_seleccionada] 
-            
-            if pieza_seleccionada:
-                seleccionando = True
-                tipo_pieza, imagen_pieza = pieza_seleccionada
-                posicion_inicial = (col_seleccionada, fila_seleccionada)
-        elif evento.type == pygame.MOUSEMOTION:
-            if seleccionando:
-                x, y = evento.pos
-                col_seleccionada = x // box
-                fila_seleccionada = y // box
-                posicion_actual = (col_seleccionada, fila_seleccionada)
-        elif evento.type == pygame.MOUSEBUTTONUP:
-            if seleccionando:
-                seleccionando = False
-                # Realizar el movimiento en el tablero según el tipo de pieza
-                match tipo_pieza:
-                    case 'Rook':
-                        Rook(board, posicion_inicial, posicion_actual)
-                    case 'Knight':
-                        print('Caballero')
-                        #knight()
-                    case 'Bisharp':
-                        print('Alfil')
-                        #Bisharp()
-                    case 'Queen':
-                        print('Reina')
-                        #Queen()
-                    case 'King':
-                        print('King')
-                        #King()
-                    case 'Paw':
-                        print('Peon')
-                        #Paw()
-                    case _:
-                        print('Thats not an Chess Piece my man')   
-
-                posicion_inicial = None
-                posicion_actual = (0,0)
-
     # Limpiar la pantalla
     DibujarElementos()
 
