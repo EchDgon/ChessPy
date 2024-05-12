@@ -1,9 +1,7 @@
 import pygame
 from componentes.piezas import *
+from componentes.colores import Colores
 
-white = (255, 255, 255)
-trust = (135,135,135)
-dark = (0, 0, 0)
 
 ancho, alto = 600, 700
 
@@ -38,9 +36,9 @@ image = ['menu', icon_menu]
 def ChessBoard(ventana, box):
     for i in range(8):
         for j in range(8):
-            color = white if (i + j) % 2 == 0 else trust
+            color = Colores["blanco"] if (i + j) % 2 == 0 else Colores['verde']
             pygame.draw.rect(ventana, color, (j * box, i * box, box, box))
-            pygame.draw.rect(ventana, dark, (j * box, i * box, box, box), 1 )
+            pygame.draw.rect(ventana, Colores['negro'], (j * box, i * box, box, box), 1 )
             if board[i][j]:
                 imagen_pieza = board[i][j][1]
 
@@ -49,9 +47,22 @@ def ChessBoard(ventana, box):
                 y = i * box + (box - alto_imagen) // 2
                 ventana.blit(imagen_pieza, (x, y))
 
-def Menu(ventana, dimensionX, dimensionY):
+def BotonMenu(ventana, dimensionX, dimensionY):
     imagen_menu = image[1]
     ancho_menu, alto_menu = imagen_menu.get_size()
     x = (dimensionX - ancho_menu)  // 2
     y = (dimensionY - alto_menu) // 2
     ventana.blit(imagen_menu, (x,y))
+
+def Desplegable(ventana, dimensionX, dimensionY, verga):
+        pygame.draw.rect(ventana, Colores["negro"], (0,0, dimensionX, dimensionY // 3 ),2)
+        pygame.draw.rect(ventana, Colores["negro"], (0, dimensionY * 0.33, dimensionX, dimensionY // 3 ), 2)
+        pygame.draw.rect(ventana, Colores["negro"], (0, dimensionY * 0.66, dimensionX, dimensionY // 3 ) , 2)
+
+        fuente = pygame.font.Font(None, 30)
+        opciones = ['REINICIAR', 'PAUSAR', 'SALIR']
+
+        texto_opcion_1 = fuente.render(opciones[0], True, Colores['blanco'])
+        ventana.blit(texto_opcion_1, (((dimensionX // 2) // 2), ((dimensionY // 3) // 2)))
+
+
