@@ -2,11 +2,6 @@ import pygame
 from componentes.piezas import *
 from componentes.colores import Colores
 
-
-ancho, alto = 600, 700
-
-ventana = pygame.display.set_mode((ancho, alto))
-
 board = [[None] * 8 for _ in range(8)]
 board[0][0] = ('Rook', dark_rook_image)
 board[0][7] = ('Rook', dark_rook_image)
@@ -54,15 +49,31 @@ def BotonMenu(ventana, dimensionX, dimensionY):
     y = (dimensionY - alto_menu) // 2
     ventana.blit(imagen_menu, (x,y))
 
-def Desplegable(ventana, dimensionX, dimensionY, verga):
+def Desplegable(ventana, dimensionX, dimensionY):
         pygame.draw.rect(ventana, Colores["negro"], (0,0, dimensionX, dimensionY // 3 ),2)
-        pygame.draw.rect(ventana, Colores["negro"], (0, dimensionY * 0.33, dimensionX, dimensionY // 3 ), 2)
-        pygame.draw.rect(ventana, Colores["negro"], (0, dimensionY * 0.66, dimensionX, dimensionY // 3 ) , 2)
+        pygame.draw.rect(ventana, Colores["negro"], (0,  dimensionY // 3, dimensionX, dimensionY // 3 ), 2)
+        pygame.draw.rect(ventana, Colores["negro"], (0, 2 *  dimensionY // 3, dimensionX, dimensionY // 3 ) , 2)
 
         fuente = pygame.font.Font(None, 30)
         opciones = ['REINICIAR', 'PAUSAR', 'SALIR']
 
-        texto_opcion_1 = fuente.render(opciones[0], True, Colores['blanco'])
-        ventana.blit(texto_opcion_1, (((dimensionX // 2) // 2), ((dimensionY // 3) // 2)))
+        texto_opcion_1 = fuente.render(opciones[0], True, Colores['negro'])
+
+        x_text1 = (dimensionX - texto_opcion_1.get_width()) // 2
+        y_text1 =  (dimensionY // 3  - texto_opcion_1.get_height()) // 2
+
+        texto_opcion_2 = fuente.render(opciones[1], True, Colores['negro'])
+
+        x_text2 = (dimensionX - texto_opcion_2.get_width()) // 2
+        y_text2 =  (dimensionY  - texto_opcion_2.get_height()) // 2
+
+        texto_opcion_3 = fuente.render(opciones[2], True, Colores['negro'])
+
+        x_text3 = (dimensionX - texto_opcion_3.get_width()) // 2
+        y_text3 =  (dimensionY - texto_opcion_3.get_height()) // 1.12
+
+        ventana.blit(texto_opcion_1, (x_text1, y_text1) )
+        ventana.blit(texto_opcion_2, (x_text2, y_text2) )
+        ventana.blit(texto_opcion_3, (x_text3, y_text3))
 
 

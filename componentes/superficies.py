@@ -1,13 +1,33 @@
 import pygame
+import sys
 
 from componentes.tablero import ChessBoard, BotonMenu, Desplegable
 from componentes.colores import Colores
-from componentes.piezas import dark_rook_image
 
 ancho = 900
 alto = 600
+def crear_ventana(ancho, alto):
+    pygame.init()
+    return pygame.display.set_mode((ancho, alto),pygame.RESIZABLE)
 
-ventana = pygame.display.set_mode((ancho, alto),pygame.RESIZABLE)
+def reiniciar_ventana(ancho, alto):
+    pygame.quit()
+    pygame.init()
+    return pygame.display.set_mode((ancho, alto),pygame.RESIZABLE)
+
+def cerrar_ventana():
+    pygame.quit()
+    sys.exit()
+
+def reiniciar_variables():
+    global seleccionando, posicion_inicial, posicion_actual, menu_activo
+
+    seleccionando = False
+    posicion_inicial = None
+    posicion_actual = (0, 0)
+    menu_activo = False
+
+
 
 def AjusteDimensiones(ancho, alto):
     dimension_tablero = min(ancho , alto)
@@ -42,13 +62,14 @@ def DibujarElementos():
 
     ChessBoard(superficie_tablero, box)
     BotonMenu(superficie_menu, dimension_menu[0], dimension_menu[1])
-    Desplegable(superficie_desplegable, dimension_desplegable[0], dimension_desplegable[1], dimension_desplegable)
+    Desplegable(superficie_desplegable, dimension_desplegable[0], dimension_desplegable[1])
 
+    pygame.draw.rect(superficie_menu, Colores["negro"], (0,0, dimension_menu[0], dimension_menu[1]),2)
     pygame.draw.rect(superficie_tabla, Colores['verde'], (15, 15, dimension_tabla[0] - 30, dimension_tabla[1] - 30))
     pygame.draw.rect(superficie_info, Colores["verde"], (15, 15, dimension_info[0] - 30, dimension_info[1] - 30))
 
 # Función para redibujar las superficies en la ventana
-def RecargarVentana(boolean):
+def RecargarVentana(ventana, boolean):
     # Dibujar las superficies en la ventana principal
     if boolean  == False :
         ventana.blit(superficie_tablero, (0, 0))
