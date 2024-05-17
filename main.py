@@ -57,10 +57,25 @@ while corriendo:
                         posicion_inicial = (col_seleccionada, fila_seleccionada)
 
                         match (tipo_pieza):
-                            case "Paw":
-                                print("peon")
-                            case default:
-                                print("ome")
+                            case 'Rook':
+                                Rook(board, posicion_inicial, posicion_actual)
+                            case 'Knight':
+                                print("caballo")
+                                #knight()
+                            case 'Bisharp':
+                                print("hola")
+                                #Bisharp()
+                            case 'Queen':
+                                print('Reina')
+                                #Queen()
+                            case 'King':
+                                print('King')
+                                #King()
+                            case 'Paw':
+                                print('Peon')
+                                #Paw()
+                            case _:
+                                print('Thats not an Chess Piece my man')  
 
             elif (pos_menu[0] <= x <= pos_menu[0] + dimension_menu[0] and 
                   pos_menu[1] <= y <= pos_menu[1] + dimension_menu[1]):
