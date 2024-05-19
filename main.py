@@ -44,6 +44,7 @@ while corriendo:
             dimension_desplegable = (alto_n // 4, alto_n // 4)
             pos_desplegable = (ancho_n - dimension_desplegable[0] - 5, pos_menu[1] + dimension_menu[1])
         
+        
         elif evento.type == pygame.MOUSEBUTTONDOWN:
             x, y = evento.pos
 
