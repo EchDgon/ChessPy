@@ -20,7 +20,7 @@ alto = 600
 mi_ventana = crear_ventana(ancho, alto)
 
 # Bucle principal
-seleccionando = False
+seleccionando = True
 posicion_inicial = None
 posicion_actual = (0,0)
 
@@ -58,12 +58,12 @@ while corriendo:
 
                         match (tipo_pieza):
                             case 'Rook':
-                                Rook(board, posicion_inicial, posicion_actual)
+                                print("torre")
                             case 'Knight':
                                 print("caballo")
                                 #knight()
                             case 'Bisharp':
-                                print("hola")
+                                print("alfil")
                                 #Bisharp()
                             case 'Queen':
                                 print('Reina')
@@ -97,6 +97,47 @@ while corriendo:
                     elif(pos_desplegable[0] <= x <= pos_desplegable[0] + dimension_desplegable[0] and
                         (2 *dimension_desplegable[1] // 3) <= y <= (2 *dimension_desplegable[1] // 3) + (dimension_desplegable[1])):
                             cerrar_ventana()
+        elif evento.type == pygame.MOUSEMOTION:
+            if seleccionando:
+                x, y = evento.pos
+                col_seleccionada = x // box
+                fila_seleccionada = y // box
+                posicion_actual = (col_seleccionada, fila_seleccionada)
+                pieza_seleccionada = board[fila_seleccionada][col_seleccionada]
+                tipo_pieza1= pieza_seleccionada
+                    
+        elif evento.type == pygame.MOUSEBUTTONUP:
+            if seleccionando:
+                
+                seleccionando = False
+                    # Realizar el movimiento en el tablero según el tipo de pieza
+                
+                match tipo_pieza:
+                    case 'Rook':
+                        vali(tipo_pieza1)
+                        Rook(board, posicion_inicial, posicion_actual)
+                    case 'Knight':
+                        print("caballo")
+                            #knight()
+                    case 'Bisharp':
+                        vali(tipo_pieza1)
+                        Bisharp(board, posicion_inicial, posicion_actual)
+                            #Bisharp()
+                    case 'Queen':
+                        print('Reina')
+                            #Queen()
+                    case 'King':
+                        print('King')
+                            #King()
+                    case 'Paw':
+                        vali(tipo_pieza1)
+                        Paw(board, posicion_inicial, posicion_actual,tipo_pieza1)
+                            #Paw()
+                    case _:
+                        print('Thats not an Chess Piece my man')   
+
+                posicion_inicial = None
+                posicion_actual = (0,0)
 
 
                 
