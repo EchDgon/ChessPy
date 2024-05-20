@@ -1,100 +1,167 @@
-from componentes.tablero import *
-def vali(tipo_pieza1):
+from componentes.tablero import board
+
+def vali(pieza,tipo_pieza1):
     global no
-    no=False
+    no = False
+    if pieza=='Rook1' or pieza=='Bisharp1' or pieza=='Knight1' or pieza=='Paw1' or pieza=='Queen1' :
+        valor='1'
+    else:
+        valor='2'
     try:
-        print(tipo_pieza1[0])
-        if(tipo_pieza1[0]=='Rook' or tipo_pieza1[0]=='Knight' or tipo_pieza1[0]=='Bisharp' or tipo_pieza1[0]=='Queen' 
-                   or tipo_pieza1[0]=='King' or tipo_pieza1[0]=='Paw'):
-            no=False
+        if tipo_pieza1[0] in ['Rook'+valor, 'Knight'+valor, 'Bisharp'+valor, 'Queen'+valor, 'King1', 'King2', 'Paw'+valor]:
+            no = False
         else:
-            no=True
+            no = True
     except TypeError:
+        no = True
+
+def Rook(tablero, posicion_inicial, posicion_final,pieza,pieza1):
+    global no
+    col_inicial, fila_inicial = posicion_inicial
+    col_final, fila_final = posicion_final
+    
+    vali(pieza,pieza1)
+    if (col_inicial == col_final or fila_inicial == fila_final) and no==True:
+        paso = 1 if fila_final > fila_inicial or col_final > col_inicial else -1
+        camino_limpio = True
+        if col_inicial == col_final:
+            for i in range(fila_inicial + paso, fila_final, paso):
+                if tablero[i][col_inicial] is not None:
+                    camino_limpio = False
+                    break
+        else:
+            for j in range(col_inicial + paso, col_final, paso):
+                if tablero[fila_final][j] is not None:
+                    camino_limpio = False
+                    break
+        if camino_limpio:
+            tablero[fila_final][col_final] = tablero[fila_inicial][col_inicial]
+            tablero[fila_inicial][col_inicial] = None
+            no=True
+        else:
+            print("Movimiento no valido para una torre")
+            no=False
+    else:
+        print("Movimiento no valido para una torre")
+        no=False
+    return no
+
+def Bisharp(tablero, posicion_inicial, posicion_final,pieza,pieza1):
+    global no
+    col_inicial, fila_inicial = posicion_inicial
+    col_final, fila_final = posicion_final
+    vali(pieza,pieza1)
+    if abs(col_inicial - col_final) == abs(fila_inicial - fila_final) and no==True:
+        paso_col = 1 if col_final > col_inicial else -1
+        paso_fila = 1 if fila_final > fila_inicial else -1
+        camino_limpio = True
+        i, j = fila_inicial + paso_fila, col_inicial + paso_col
+        while i != fila_final and j != col_final:
+            if tablero[i][j] is not None:
+                camino_limpio = False
+                break
+            i += paso_fila
+            j += paso_col
+        if camino_limpio:
+            tablero[fila_final][col_final] = tablero[fila_inicial][col_inicial]
+            tablero[fila_inicial][col_inicial] = None
+            no=True
+        else:
+            print("Movimiento no valido para un alfil")
+            no=False
+    else:
+        print("Movimiento no valido para un alfil")
+        no=False
+    return no
+
+def Knight(tablero, posicion_inicial, posicion_final,pieza,pieza1):
+    global no
+    col_inicial, fila_inicial = posicion_inicial
+    col_final, fila_final = posicion_final
+    vali(pieza,pieza1)
+    movimientos_validos = [
+        (col_inicial + 1, fila_inicial + 2), (col_inicial - 1, fila_inicial + 2),
+        (col_inicial + 1, fila_inicial - 2), (col_inicial - 1, fila_inicial - 2),
+        (col_inicial + 2, fila_inicial + 1), (col_inicial - 2, fila_inicial + 1),
+        (col_inicial + 2, fila_inicial - 1), (col_inicial - 2, fila_inicial - 1)
+    ]
+    if (col_final, fila_final) in movimientos_validos and no==True:
+        tablero[fila_final][col_final] = tablero[fila_inicial][col_inicial]
+        tablero[fila_inicial][col_inicial] = None
         no=True
-        
+    else:
+        print("Movimiento no valido para un caballo")
+        no=False
+    return no
 
-            
-def Rook(tablero, posicion_inicial, posicion_final):
-    try:
-        col_inicial, fila_inicial = posicion_inicial
-        col_final, fila_final = posicion_final
-        # Verificar si el movimiento es válido para la torre
-        print("col ini(",col_inicial,") fila ini (",fila_inicial,") col fi (",col_final,") fila fi (", fila_final)
-        
-        if (col_inicial == col_final or fila_inicial == fila_final) and (posicion_inicial!=posicion_final) and (no==True):
-            # Verificar si no hay piezas en el camino
-            if (col_final<8 and col_final>=0)  and (fila_final<8 and fila_final>=0) :
-                paso = 1 if fila_final > fila_inicial or col_final > col_inicial else -1
-                if col_inicial == col_final:
-                    camino_limpio = all(tablero[i][col_inicial] is None for i in range(fila_inicial + paso, fila_final, paso))
-                else:
-                    camino_limpio = all(tablero[fila_final][j] is None for j in range(col_inicial + paso, col_final, paso))
-                
-                if camino_limpio:
-                    tablero[fila_final][col_final] = tablero[fila_inicial][col_inicial]
-                    tablero[fila_inicial][col_inicial] = None
-            else:
-                print("Movimiento no válido para una torre")
-        else:
-            print("Movimiento no válido para una torre")
-        
-    
-    except TypeError as e:
-        print(f"Error en mover_torre: {e}")
-def Bisharp(tablero, posicion_inicial, posicion_final):
-    try:
-        col_inicial, fila_inicial = posicion_inicial
-        col_final, fila_final = posicion_final
-        con=fila_inicial-col_inicial
-        con1=fila_inicial+col_inicial
-
-        # Verificar si el movimiento es válido para la torre
-        if (col_inicial != col_final and fila_inicial != fila_final) and (posicion_inicial!=posicion_final)and (no==True):
-            # Verificar si no hay piezas en el camino
-                if (col_final<8 and col_final>=0)  and (fila_final<8 and fila_final>=0) :
-                    for i in range(8):
-                        for j in range(8):
-                            if((i+j)==con1 or (i-j)==con):
-                                if i==fila_final and j==col_final:
-
-                                    tablero[fila_final][col_final] = tablero[fila_inicial][col_inicial]
-                                    tablero[fila_inicial][col_inicial] = None
-                else:
-                    print("Movimiento no válido para una Alfil")
-        else:
-            print("Movimiento no válido para una Alfil")
-        
-    
-    except TypeError as e:
-        print(f"Error en mover_Alfil: {e}")
-
-def mover_caballo(tablero, posicion_inicial, posicion_final):
+def Queen(tablero, posicion_inicial, posicion_final,pieza,pieza1):
+    global no
     col_inicial, fila_inicial = posicion_inicial
     col_final, fila_final = posicion_final
+    if abs(col_inicial - col_final) == abs(fila_inicial - fila_final):
+        Bisharp(tablero, posicion_inicial, posicion_final,pieza,pieza1)
+    elif col_inicial == col_final or fila_inicial == fila_final:
+        Rook(tablero, posicion_inicial, posicion_final,pieza,pieza1)
+    else:
+        print("Movimiento no valido para una reina")
+        no=False
 
-def mover_reina(tablero, posicion_inicial, posicion_final):
+def King(tablero, posicion_inicial, posicion_final,pieza,pieza1):
+    global no
     col_inicial, fila_inicial = posicion_inicial
     col_final, fila_final = posicion_final
-def mover_rey(tablero, posicion_inicial, posicion_final):
+    vali(pieza,pieza1)
+    if max(abs(col_inicial - col_final), abs(fila_inicial - fila_final)) == 1 and no==True:
+        tablero[fila_final][col_final] = tablero[fila_inicial][col_inicial]
+        tablero[fila_inicial][col_inicial] = None
+        no=True
+    else:
+        print("Movimiento no valido para un rey")
+        no=False
+    return no
+
+def Paw(tablero, posicion_inicial, posicion_final,pieza, tipo_pieza1,con):
+    global no
     col_inicial, fila_inicial = posicion_inicial
     col_final, fila_final = posicion_final
-def Paw(tablero, posicion_inicial, posicion_final,pieza):
-    try:
-        col_inicial, fila_inicial = posicion_inicial
-        col_final, fila_final = posicion_final
-        print("col ini(",col_inicial,") fila ini (",fila_inicial,") col fi (",col_final,") fila fi (", fila_final, ") piza : ",pieza)
-
-        if ((col_final-1==col_inicial or col_final+1==col_inicial) and fila_inicial==fila_final-1):
-                if (pieza[0]=='Paw' or pieza[0]=='Rook' or pieza[0]=='Bisharp' or pieza[0]=='Horse' or pieza[0]=='Queen'):
-                    tablero[fila_final][col_final] = tablero[fila_inicial][col_inicial]
-                    tablero[fila_inicial][col_inicial] = None
-        
-        elif (fila_inicial==fila_final-1 and col_inicial==col_final) or (fila_inicial==1 and fila_inicial==fila_final-2 and col_inicial==col_final):
-            if (no):
+    vali(pieza,tipo_pieza1) 
+    if(con==2):
+        ini=-1
+        sal=-2
+        punto=6
+    if con==1:
+        ini=1
+        sal=2
+        punto=1
+    if col_inicial == col_final and no==True:
+       
+        if fila_final == fila_inicial + ini:
+            if tablero[fila_final][col_final] is None :
                 tablero[fila_final][col_final] = tablero[fila_inicial][col_inicial]
                 tablero[fila_inicial][col_inicial] = None
-        else:
-            print("Movimiento no válido para un Peon")
+                no=True
+            else:
+                print("Movimiento no valido para un peon1")
+                no=False
+        elif fila_final == fila_inicial +sal and fila_inicial == punto:
+            if tablero[fila_final][col_final] is None and tablero[fila_inicial + ini][col_inicial] is None:
+                tablero[fila_final][col_final] = tablero[fila_inicial][col_inicial]
+                tablero[fila_inicial][col_inicial] = None
+                no=True
+            else:
+                print("Movimiento no valido para un peon")
+                no=False
+    elif abs(col_inicial - col_final) == 1 and fila_final == fila_inicial + ini and no==True:
+        if (tablero[fila_final][col_final] is not None):
 
-    except TypeError as e:
-        print(f"Error en mover_Peon: {e}")
+            if (col_final+1==col_inicial or col_final-1==col_inicial):
+                tablero[fila_final][col_final] = tablero[fila_inicial][col_inicial]
+                tablero[fila_inicial][col_inicial] = None
+                no=True
+        else:
+            print("Movimiento no valido para un peon3")
+            no=False
+    else:
+        print("Movimiento no valido para un peon")
+        no=False
+    return no
