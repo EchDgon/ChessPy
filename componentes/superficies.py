@@ -27,8 +27,6 @@ def reiniciar_variables():
     posicion_actual = (0, 0)
     menu_activo = False
 
-
-
 def AjusteDimensiones(ancho, alto):
     dimension_tablero = min(ancho , alto)
     dimension_tabla = (ancho - dimension_tablero, alto // 2)
